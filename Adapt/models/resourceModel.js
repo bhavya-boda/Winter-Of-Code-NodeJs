@@ -1,26 +1,31 @@
 const mongoose = require("mongoose");
 
-// Define the schema for messages
-const messageSchema = new mongoose.Schema({
-    category: {
+// Define schema for shared resources (notes/files)
+const resourceSchema = new mongoose.Schema({
+    topic: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Category",
+        ref: "Topic",
         required: true,
     },
-    senderId: {
+    uploader: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true,
     },
-    content: {
+    filename: {
         type: String,
         required: true,
         trim: true,
     },
-    createdAt: {
+    fileUrl: {
+        type: String,
+        required: true,
+    },
+    uploadedAt: {
         type: Date,
         default: Date.now,
     },
 });
 
-module.exports = mongoose.model("Message", messageSchema);
+// Export the Resource model
+module.exports = mongoose.model("Resource", resourceSchema);

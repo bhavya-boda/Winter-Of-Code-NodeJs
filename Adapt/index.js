@@ -2,11 +2,16 @@ require("dotenv").config(); // Load environment variables
 const express = require("express");
 const mongoose = require("mongoose");
 
+const authRoutes = require("./routes/authRoutes");
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json()); // Parse JSON request body
+
+// Routes
+app.use("/api/auth", authRoutes);
 
 // Connect to MongoDB
 mongoose

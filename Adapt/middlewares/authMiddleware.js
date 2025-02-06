@@ -12,8 +12,18 @@ const verifyToken = (req, res, next) => {
     req.user = verified; // Attach user info to request
     next(); // Proceed to the next middleware or route
   } catch (error) {
-    res.status(400).json({ message: "Invalid Token" });
+    res.status(403).json({ message: "Invalid or expired Token" });
   }
 };
 
-module.exports = { verifyToken };
+// Middleware to check user role
+const checkRole = (role) => {
+  return (req, res, next) => {
+    if (!req.user || req.user.role !== role) {
+      return res.status(403).json({ message: "Access Denied. Insufficient permissions." });
+    }
+    next();
+  };
+};
+
+module.exports = { verifyToken, checkRole };

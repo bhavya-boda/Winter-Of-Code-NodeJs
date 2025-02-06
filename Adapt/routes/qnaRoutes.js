@@ -1,11 +1,10 @@
 const express = require("express");
-const { verifyToken } = require("../middlewares/authMiddleware");
+const { verifyToken, checkRole  } = require("../middlewares/authMiddleware");
+const { addOrRemoveCategory } = require("../controllers/qnaController");
 
 const router = express.Router();
 
-// Checking for protection of route
-router.get("/", verifyToken, (req, res) => {
-  res.json({ message: "QnA Route Working!", user: req.user });
-});
+// Only admins can create categories
+router.post("/category", verifyToken, checkRole("Admin"), addOrRemoveCategory);
 
 module.exports = router;
